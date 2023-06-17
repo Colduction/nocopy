@@ -1,8 +1,9 @@
+// Fast, thread-safe and no copy data type converter library written in Go
 package nocopy
 
 import "unsafe"
 
-// Converts b string to an immutable string
+// Converts b byte slice to an immutable string
 func ByteSliceToString(b []byte) string {
 	length := len(b)
 	if length <= 0 {
