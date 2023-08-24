@@ -9,7 +9,10 @@ import (
 	"github.com/colduction/nocopy"
 )
 
-const sampleText = "Hello World!"
+const (
+	sampleText string = "Hello World!"
+	sampleByte byte   = 80
+)
 
 var sampleSlice []byte = []byte{}
 
@@ -25,31 +28,33 @@ func benchPerCoreConfigs(b *testing.B, f func(b *testing.B)) {
 	}
 }
 
+// StringToByteSlice
 func BenchmarkStringToByteSlice(b *testing.B) {
 	benchPerCoreConfigs(b, func(b *testing.B) {
 		b.RunParallel(func(b *testing.PB) {
 			for b.Next() {
-				nocopy.StringToByteSlice(sampleText)
+				_ = nocopy.StringToByteSlice(sampleText)
 			}
 		})
 	})
 }
 
-func BenchmarkNewBufferString(b *testing.B) {
+func BenchmarkNewBufferStringBytes(b *testing.B) {
 	benchPerCoreConfigs(b, func(b *testing.B) {
 		b.RunParallel(func(b *testing.PB) {
 			for b.Next() {
-				bytes.NewBufferString(sampleText)
+				_ = bytes.NewBufferString(sampleText).Bytes()
 			}
 		})
 	})
 }
 
+// ByteSliceToString
 func BenchmarkByteSliceToString(b *testing.B) {
 	benchPerCoreConfigs(b, func(b *testing.B) {
 		b.RunParallel(func(b *testing.PB) {
 			for b.Next() {
-				nocopy.ByteSliceToString(sampleSlice)
+				_ = nocopy.ByteSliceToString(sampleSlice)
 			}
 		})
 	})
@@ -60,6 +65,27 @@ func BenchmarkNewBuffer(b *testing.B) {
 		b.RunParallel(func(b *testing.PB) {
 			for b.Next() {
 				_ = bytes.NewBuffer(sampleSlice).String()
+			}
+		})
+	})
+}
+
+// ByteToByteSlice
+func BenchmarkByteToByteSlice(b *testing.B) {
+	benchPerCoreConfigs(b, func(b *testing.B) {
+		b.RunParallel(func(b *testing.PB) {
+			for b.Next() {
+				_ = nocopy.ByteToByteSlice(sampleByte)
+			}
+		})
+	})
+}
+
+func BenchmarkSafeByteToByteSlice(b *testing.B) {
+	benchPerCoreConfigs(b, func(b *testing.B) {
+		b.RunParallel(func(b *testing.PB) {
+			for b.Next() {
+				_ = []byte{sampleByte}
 			}
 		})
 	})

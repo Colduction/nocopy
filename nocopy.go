@@ -12,6 +12,11 @@ func ByteSliceToString(b []byte) string {
 	return unsafe.String(unsafe.SliceData(b), length)
 }
 
+// Converts b byte to an immutable slice of a byte
+func ByteToByteSlice(b byte) []byte {
+	return unsafe.Slice(&b, 1)
+}
+
 // Converts s string to an immutable slice of bytes
 func StringToByteSlice(s string) []byte {
 	length := len(s)
