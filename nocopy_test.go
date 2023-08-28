@@ -90,3 +90,24 @@ func BenchmarkSafeByteToByteSlice(b *testing.B) {
 		})
 	})
 }
+
+// StringToStringSlice
+func BenchmarkStringToStringSlice(b *testing.B) {
+	benchPerCoreConfigs(b, func(b *testing.B) {
+		b.RunParallel(func(b *testing.PB) {
+			for b.Next() {
+				_ = nocopy.StringToStringSlice(sampleText)
+			}
+		})
+	})
+}
+
+func BenchmarkSafeStringToStringSlice(b *testing.B) {
+	benchPerCoreConfigs(b, func(b *testing.B) {
+		b.RunParallel(func(b *testing.PB) {
+			for b.Next() {
+				_ = []string{sampleText}
+			}
+		})
+	})
+}

@@ -25,3 +25,7 @@ func StringToByteSlice(s string) []byte {
 	}
 	return unsafe.Slice(unsafe.StringData(s), length)
 }
+
+func StringToStringSlice(s string) []string {
+	return unsafe.Slice(&s, 1)
+}
